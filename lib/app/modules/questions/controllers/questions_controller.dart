@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:developer';
+
 import 'package:get/get.dart';
 import 'package:programminghero/app/data/mock/questions.dart';
 import 'package:programminghero/app/modules/questions/models/questions.dart';
@@ -69,21 +72,23 @@ class QuestionsController extends GetxController
         }
       }
       Future.delayed(const Duration(seconds: 2), () {
-        int highestScore =
-            sharedPreferences.getInt(AppString.highestScore) ?? 0;
-        if (score.value > highestScore) {
-          sharedPreferences.setInt(AppString.highestScore, score.value);
-        }
         if (questionIndex.value < state!.length - 1) {
           questionIndex.value++;
           freezeAnswer.value = false;
           return;
         }
-        Get.offAllNamed(Routes.HOME);
-        Get.defaultDialog(
-            title: 'Doing Well', middleText: 'Your Score is $score');
+        gotoHome();
       });
     }
+  }
+
+  gotoHome() {
+    int highestScore = sharedPreferences.getInt(AppString.highestScore) ?? 0;
+    if (score.value > highestScore) {
+      sharedPreferences.setInt(AppString.highestScore, score.value);
+    }
+    Get.offAllNamed(Routes.HOME);
+    Get.defaultDialog(title: 'Doing Well', middleText: 'Your Score is $score');
   }
 
   markTrue(Question question) {
