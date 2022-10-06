@@ -1,0 +1,31 @@
+name: programminghero
+version: 1.0.0+1
+publish_to: none
+description: A new Flutter project.
+environment: 
+  sdk: '>=2.17.6 <3.0.0'
+
+dependencies: 
+  cupertino_icons: ^1.0.2
+  shared_preferences: ^2.0.15
+  get: 4.6.5
+  flutter: 
+    sdk: flutter
+  http: ^0.13.5
+  freezed_annotation: '2.0.3'
+  json_annotation: '4.5.0'
+
+dev_dependencies: 
+  flutter_lints: ^2.0.0
+  build_resolvers: ^2.0.9
+  build_runner: '2.1.11'
+  freezed: '2.0.3+1'
+  json_serializable: '6.2.0'
+  flutter_test: 
+    sdk: flutter
+
+flutter: 
+  uses-material-design: true
+  assets:
+    - assets/
+
