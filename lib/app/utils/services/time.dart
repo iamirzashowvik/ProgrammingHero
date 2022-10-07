@@ -3,7 +3,7 @@ import 'dart:developer';
 
 class CountdownTimer {
   Timer? countdownTimer;
-  Duration myDuration = const Duration(seconds: 3);
+  Duration myDuration = const Duration(seconds: 10);
 
   void startTimer(Function callback) {
     countdownTimer = Timer.periodic(
@@ -18,7 +18,7 @@ class CountdownTimer {
 
   void resetTimer() {
     stopTimer();
-    myDuration = const Duration(seconds: 3);
+    myDuration = const Duration(seconds: 10);
   }
 
   setCountDown(Function callback) {
@@ -30,10 +30,10 @@ class CountdownTimer {
     } else {
       myDuration = Duration(seconds: seconds);
     }
-    log(myDuration.inSeconds.toString());
+
     if (myDuration.inSeconds == 0) {
       stopTimer();
-      log('finished');
+
       callback();
     }
   }

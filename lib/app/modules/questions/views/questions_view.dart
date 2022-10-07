@@ -42,7 +42,7 @@ class QuestionsView extends GetView<QuestionsController> {
                 ),
                 Container(
                   padding: EdgeInsets.all(rgPadding),
-                  margin: EdgeInsets.only(top: rgPadding),
+                  margin: EdgeInsets.all(rgPadding),
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(rgPadding)),

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:programminghero/app/data/mock/questions.dart';
 import 'package:programminghero/app/modules/questions/models/questions.dart';
@@ -126,4 +127,6 @@ class QuestionsController extends GetxController
       change(state, status: RxStatus.success());
     }
   }
+
+  var options = <Widget>[].obs;
 }
