@@ -1,12 +1,11 @@
 import 'dart:async';
-import 'dart:developer';
-
 import 'package:get/get.dart';
 import 'package:programminghero/app/data/mock/questions.dart';
 import 'package:programminghero/app/modules/questions/models/questions.dart';
 import 'package:programminghero/app/routes/app_pages.dart';
 import 'package:programminghero/app/utils/constants/appstring.dart';
 import 'package:programminghero/app/utils/services/initialize.dart';
+import 'package:programminghero/app/utils/services/time.dart';
 
 class QuestionsController extends GetxController
     with StateMixin<List<Question>> {
@@ -16,9 +15,12 @@ class QuestionsController extends GetxController
     super.onInit();
   }
 
+  var timerClass = CountdownTimer().obs;
   Future getQuestions() async {
     final questions = questionsFromJson(mockQuestions);
     change(questions.questions, status: RxStatus.success());
+    timerClass.value.startTimer(nextQuestion);
+    //new question
 
     // var response = await httpService.getMethod(AppString.getQuiz);
     // if (response.statusCode == 200) {
@@ -71,14 +73,31 @@ class QuestionsController extends GetxController
           change(state, status: RxStatus.success());
         }
       }
+      nextQuestion();
+    }
+  }
+
+  nextQuestion() {
+    if (freezeAnswer.value) {
+      timerClass.value.resetTimer();
       Future.delayed(const Duration(seconds: 2), () {
         if (questionIndex.value < state!.length - 1) {
           questionIndex.value++;
           freezeAnswer.value = false;
+          timerClass.value.startTimer(nextQuestion);
           return;
         }
         gotoHome();
       });
+    } else {
+      if (questionIndex.value < state!.length - 1) {
+        questionIndex.value++;
+        freezeAnswer.value = false;
+        timerClass.value.resetTimer();
+        timerClass.value.startTimer(nextQuestion);
+        return;
+      }
+      gotoHome();
     }
   }
 

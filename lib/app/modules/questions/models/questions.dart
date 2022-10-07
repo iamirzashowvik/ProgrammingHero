@@ -91,10 +91,10 @@ class Answers {
         cWrong: json["cWrong"] ?? false,
         dWrong: json["dWrong"] ?? false,
       );
-  Map<String, dynamic> toJson() => {
-        "A": a == null ? null : a,
-        "B": b == null ? null : b,
-        "C": c == null ? null : c,
-        "D": d == null ? null : d,
-      };
+  // Map<String, dynamic> toJson() => {
+  //       "A": a == null ? null : a,
+  //       "B": b == null ? null : b,
+  //       "C": c == null ? null : c,
+  //       "D": d == null ? null : d,
+  //     };
 }

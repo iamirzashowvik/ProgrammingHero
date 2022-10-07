@@ -35,7 +35,7 @@ class HomeView extends GetView<HomeController> {
                   name: 'Start',
                   onTap: () {
                     Get.toNamed(Routes.QUESTIONS);
-                  })
+                  }),
             ],
           ),
         ),
