@@ -17,69 +17,49 @@ class ChoiceOptions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        state[index].answers!.a == 'UnKnown'
+    controller.freezeAnswer.value == false
+        ? state[index].answers!.toJson().forEach((key, value) {
+            controller.options.add([value, key, state, index]);
+          })
+        : null;
+    controller.freezeAnswer.value == false
+        ? controller.options.shuffle()
+        : null;
+
+    return Column(children: [
+      for (var i = 0; i < controller.options.length; i++)
+        controller.options[i][0] == 'UnKnown'
             ? const SizedBox()
             : btnContainer(
-                name: state[index].answers!.a,
-                borderColor: state[index].answers!.aWrong
-                    ? Colors.red
-                    : (state[index].answers!.aCorrect
-                        ? Colors.green
-                        : Colors.white),
+                name: controller.options[i][0],
+                borderColor:
+                    colorFunction(controller.options[i][1], state, index),
                 onTap: () {
                   controller.checkAnswer(
-                    'A',
+                    controller.options[i][1],
                     state[index],
                   );
                 }),
-        state[index].answers!.b == 'UnKnown'
-            ? const SizedBox()
-            : btnContainer(
-                name: state[index].answers!.b,
-                borderColor: state[index].answers!.bWrong
-                    ? Colors.red
-                    : (state[index].answers!.bCorrect
-                        ? Colors.green
-                        : Colors.white),
-                onTap: () {
-                  controller.checkAnswer(
-                    'B',
-                    state[index],
-                  );
-                }),
-        state[index].answers!.c == 'UnKnown'
-            ? const SizedBox()
-            : btnContainer(
-                name: state[index].answers!.c,
-                borderColor: state[index].answers!.cWrong
-                    ? Colors.red
-                    : (state[index].answers!.cCorrect
-                        ? Colors.green
-                        : Colors.white),
-                onTap: () {
-                  controller.checkAnswer(
-                    'C',
-                    state[index],
-                  );
-                }),
-        state[index].answers!.d == 'UnKnown'
-            ? const SizedBox()
-            : btnContainer(
-                name: state[index].answers!.d,
-                borderColor: state[index].answers!.dWrong
-                    ? Colors.red
-                    : (state[index].answers!.dCorrect
-                        ? Colors.green
-                        : Colors.white),
-                onTap: () {
-                  controller.checkAnswer(
-                    'D',
-                    state[index],
-                  );
-                })
-      ],
-    );
+    ]);
+  }
+}
+
+colorFunction(String key, List<Question> state, int index) {
+  if (key == 'A') {
+    return state[index].handlers.aWrong
+        ? Colors.red
+        : (state[index].handlers.aCorrect ? Colors.green : Colors.white);
+  } else if (key == 'B') {
+    return state[index].handlers.bWrong
+        ? Colors.red
+        : (state[index].handlers.bCorrect ? Colors.green : Colors.white);
+  } else if (key == 'C') {
+    return state[index].handlers.cWrong
+        ? Colors.red
+        : (state[index].handlers.cCorrect ? Colors.green : Colors.white);
+  } else if (key == 'D') {
+    return state[index].handlers.dWrong
+        ? Colors.red
+        : (state[index].handlers.dCorrect ? Colors.green : Colors.white);
   }
 }

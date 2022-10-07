@@ -52,10 +52,10 @@ class QuestionsView extends GetView<QuestionsController> {
                       style: rgBold.copyWith(color: bgColor),
                     ),
                     ImageService.isValid(state[controller.questionIndex.value]
-                            .questionImageUrl!)
+                            .questionImageUrl)
                         ? Image.network(
                             state[controller.questionIndex.value]
-                                .questionImageUrl!,
+                                .questionImageUrl,
                             height: 200,
                             width: 200,
                           )

@@ -19,8 +19,21 @@ class QuestionsController extends GetxController
   var timerClass = CountdownTimer().obs;
   Future getQuestions() async {
     final questions = questionsFromJson(mockQuestions);
+    // change(questions.questions, status: RxStatus.loading());
+    // int i = 0;
+    // for (var element in questions.questions) {
+    //   var map = element.answers!.toJson();
+    //   var values = (map.keys.toList()..shuffle());
+    //   Map<String, dynamic> newAnswers = {};
+    //   for (var v in values) {
+    //     newAnswers[v] = map[v];
+    //   }
+    //   state![i].answers = Answers.fromJson(newAnswers);
+    //   i++;
+    // }
     change(questions.questions, status: RxStatus.success());
     timerClass.value.startTimer(nextQuestion);
+
     //new question
 
     // var response = await httpService.getMethod(AppString.getQuiz);
@@ -46,24 +59,24 @@ class QuestionsController extends GetxController
       if (key == question.correctAnswer) {
         score.value = score.value + question.score;
         if (key == 'A') {
-          state![questionIndex.value].answers!.aCorrect = true;
+          state![questionIndex.value].handlers.aCorrect = true;
         } else if (key == 'B') {
-          state![questionIndex.value].answers!.bCorrect = true;
+          state![questionIndex.value].handlers.bCorrect = true;
         } else if (key == 'C') {
-          state![questionIndex.value].answers!.cCorrect = true;
+          state![questionIndex.value].handlers.cCorrect = true;
         } else {
-          state![questionIndex.value].answers!.dCorrect = true;
+          state![questionIndex.value].handlers.dCorrect = true;
         }
       } else {
         markTrue(question);
         if (key == 'A') {
-          state![questionIndex.value].answers!.aWrong = true;
+          state![questionIndex.value].handlers.aWrong = true;
         } else if (key == 'B') {
-          state![questionIndex.value].answers!.bWrong = true;
+          state![questionIndex.value].handlers.bWrong = true;
         } else if (key == 'C') {
-          state![questionIndex.value].answers!.cWrong = true;
+          state![questionIndex.value].handlers.cWrong = true;
         } else {
-          state![questionIndex.value].answers!.dWrong = true;
+          state![questionIndex.value].handlers.dWrong = true;
         }
       }
       change(state, status: RxStatus.success());
@@ -78,6 +91,7 @@ class QuestionsController extends GetxController
         if (questionIndex.value < state!.length - 1) {
           questionIndex.value++;
           freezeAnswer.value = false;
+          options.value = [];
           timerClass.value.startTimer(nextQuestion);
           return;
         }
@@ -87,6 +101,7 @@ class QuestionsController extends GetxController
       if (questionIndex.value < state!.length - 1) {
         questionIndex.value++;
         freezeAnswer.value = false;
+        options.value = [];
         timerClass.value.resetTimer();
         timerClass.value.startTimer(nextQuestion);
         return;
@@ -107,16 +122,16 @@ class QuestionsController extends GetxController
   markTrue(Question question) {
     var key = question.correctAnswer;
     if (key == 'A') {
-      state![questionIndex.value].answers!.aCorrect = true;
+      state![questionIndex.value].handlers.aCorrect = true;
     } else if (key == 'B') {
-      state![questionIndex.value].answers!.bCorrect = true;
+      state![questionIndex.value].handlers.bCorrect = true;
     } else if (key == 'C') {
-      state![questionIndex.value].answers!.cCorrect = true;
+      state![questionIndex.value].handlers.cCorrect = true;
     } else {
-      state![questionIndex.value].answers!.dCorrect = true;
+      state![questionIndex.value].handlers.dCorrect = true;
     }
     change(state, status: RxStatus.success());
   }
 
-  var options = <Widget>[].obs;
+  var options = [].obs;
 }
