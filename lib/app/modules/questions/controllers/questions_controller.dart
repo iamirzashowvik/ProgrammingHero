@@ -47,33 +47,26 @@ class QuestionsController extends GetxController
         score.value = score.value + question.score;
         if (key == 'A') {
           state![questionIndex.value].answers!.aCorrect = true;
-          change(state, status: RxStatus.success());
         } else if (key == 'B') {
           state![questionIndex.value].answers!.bCorrect = true;
-          change(state, status: RxStatus.success());
         } else if (key == 'C') {
           state![questionIndex.value].answers!.cCorrect = true;
-          change(state, status: RxStatus.success());
         } else {
           state![questionIndex.value].answers!.dCorrect = true;
-          change(state, status: RxStatus.success());
         }
       } else {
         markTrue(question);
         if (key == 'A') {
           state![questionIndex.value].answers!.aWrong = true;
-          change(state, status: RxStatus.success());
         } else if (key == 'B') {
           state![questionIndex.value].answers!.bWrong = true;
-          change(state, status: RxStatus.success());
         } else if (key == 'C') {
           state![questionIndex.value].answers!.cWrong = true;
-          change(state, status: RxStatus.success());
         } else {
           state![questionIndex.value].answers!.dWrong = true;
-          change(state, status: RxStatus.success());
         }
       }
+      change(state, status: RxStatus.success());
       nextQuestion();
     }
   }
@@ -115,17 +108,14 @@ class QuestionsController extends GetxController
     var key = question.correctAnswer;
     if (key == 'A') {
       state![questionIndex.value].answers!.aCorrect = true;
-      change(state, status: RxStatus.success());
     } else if (key == 'B') {
       state![questionIndex.value].answers!.bCorrect = true;
-      change(state, status: RxStatus.success());
     } else if (key == 'C') {
       state![questionIndex.value].answers!.cCorrect = true;
-      change(state, status: RxStatus.success());
     } else {
       state![questionIndex.value].answers!.dCorrect = true;
-      change(state, status: RxStatus.success());
     }
+    change(state, status: RxStatus.success());
   }
 
   var options = <Widget>[].obs;
