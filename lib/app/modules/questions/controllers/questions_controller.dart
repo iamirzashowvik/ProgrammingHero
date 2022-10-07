@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:flutter/material.dart';
+import 'dart:developer';
 import 'package:get/get.dart';
 import 'package:programminghero/app/data/mock/questions.dart';
 import 'package:programminghero/app/modules/questions/models/questions.dart';
@@ -18,32 +18,20 @@ class QuestionsController extends GetxController
 
   var timerClass = CountdownTimer().obs;
   Future getQuestions() async {
-    final questions = questionsFromJson(mockQuestions);
-    // change(questions.questions, status: RxStatus.loading());
-    // int i = 0;
-    // for (var element in questions.questions) {
-    //   var map = element.answers!.toJson();
-    //   var values = (map.keys.toList()..shuffle());
-    //   Map<String, dynamic> newAnswers = {};
-    //   for (var v in values) {
-    //     newAnswers[v] = map[v];
-    //   }
-    //   state![i].answers = Answers.fromJson(newAnswers);
-    //   i++;
-    // }
-    change(questions.questions, status: RxStatus.success());
-    timerClass.value.startTimer(nextQuestion);
+    // final questions = questionsFromJson(mockQuestions);
+    // change(questions.questions, status: RxStatus.success());
+    // timerClass.value.startTimer(nextQuestion, determinateIndicator);
 
     //new question
 
-    // var response = await httpService.getMethod(AppString.getQuiz);
-    // if (response.statusCode == 200) {
-    //   log(response.body);
-    //   final questions = questionsFromJson(response.body);
-    //   change(questions.questions, status: RxStatus.success());
-    // } else {
-    //   change([], status: RxStatus.error('Error'));
-    // }
+    var response = await httpService.getMethod(AppString.getQuiz);
+    if (response.statusCode == 200) {
+      final questions = questionsFromJson(response.body);
+      change(questions.questions, status: RxStatus.success());
+      timerClass.value.startTimer(nextQuestion, determinateIndicator);
+    } else {
+      change([], status: RxStatus.error('Error'));
+    }
   }
 
   var questionIndex = 0.obs;
@@ -92,18 +80,18 @@ class QuestionsController extends GetxController
           questionIndex.value++;
           freezeAnswer.value = false;
           options.value = [];
-          timerClass.value.startTimer(nextQuestion);
+          timerClass.value.startTimer(nextQuestion, determinateIndicator);
           return;
         }
         gotoHome();
       });
     } else {
+      timerClass.value.resetTimer();
       if (questionIndex.value < state!.length - 1) {
         questionIndex.value++;
         freezeAnswer.value = false;
         options.value = [];
-        timerClass.value.resetTimer();
-        timerClass.value.startTimer(nextQuestion);
+        timerClass.value.startTimer(nextQuestion, determinateIndicator);
         return;
       }
       gotoHome();
@@ -134,4 +122,11 @@ class QuestionsController extends GetxController
   }
 
   var options = [].obs;
+
+  var progressTimer = 0.0.obs;
+  void determinateIndicator(int x) {
+    var deduct = 10 - x;
+    var abs = deduct.abs() + 1;
+    progressTimer.value = abs / 10;
+  }
 }

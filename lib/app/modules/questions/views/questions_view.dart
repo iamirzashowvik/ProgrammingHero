@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:programminghero/app/modules/questions/views/widgets/choice_options.dart';
@@ -18,59 +20,75 @@ class QuestionsView extends GetView<QuestionsController> {
       body: controller.obx(
         (state) {
           return Obx(
-            () => Column(
-              children: [
-                Container(
-                  padding: EdgeInsets.all(rgPadding),
-                  width: Get.width,
-                  color: Colors.white,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Text(
-                        'Questions:${controller.questionIndex.value + 1}/${state!.length}',
-                        style: rgBold.copyWith(
-                            color: bgColor, fontSize: titleSize),
-                      ),
-                      Text(
-                        'Score: ${controller.score.value}',
-                        style: rgBold.copyWith(
-                            color: bgColor, fontSize: titleSize),
-                      ),
-                    ],
+            () => SingleChildScrollView(
+              child: Column(
+                children: [
+                  Obx(() {
+                    // log(controller.progressTimer.value.toString());
+                    return LinearProgressIndicator(
+                      backgroundColor: Colors.grey,
+                      color: Colors.pinkAccent,
+                      minHeight: 5,
+                      value: controller.progressTimer.value,
+                    );
+                  }),
+                  SizedBox(
+                    height: rgPadding,
                   ),
-                ),
-                Container(
-                  padding: EdgeInsets.all(rgPadding),
-                  margin: EdgeInsets.all(rgPadding),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(rgPadding)),
-                  child: Column(children: [
-                    Text(
-                      '${state[controller.questionIndex.value].score.toString()} Points',
-                      style: rgBold.copyWith(color: bgColor),
+                  Container(
+                    padding: EdgeInsets.all(rgPadding),
+                    width: Get.width,
+                    color: Colors.white,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Text(
+                          'Questions:${controller.questionIndex.value + 1}/${state!.length}',
+                          style: rgBold.copyWith(
+                              color: bgColor, fontSize: titleSize),
+                        ),
+                        Text(
+                          'Score: ${controller.score.value}',
+                          style: rgBold.copyWith(
+                              color: bgColor, fontSize: titleSize),
+                        ),
+                      ],
                     ),
-                    ImageService.isValid(state[controller.questionIndex.value]
-                            .questionImageUrl)
-                        ? Image.network(
-                            state[controller.questionIndex.value]
-                                .questionImageUrl,
-                            height: 200,
-                            width: 200,
-                          )
-                        : const SizedBox(),
-                    Text(
-                      state[controller.questionIndex.value].question.toString(),
-                      style: rgBold.copyWith(color: bgColor),
-                    ),
-                  ]),
-                ),
-                ChoiceOptions(
-                    controller: controller,
-                    index: controller.questionIndex.value,
-                    state: state),
-              ],
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(rgPadding),
+                    margin: EdgeInsets.all(rgPadding),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(rgPadding)),
+                    child: Column(children: [
+                      Text(
+                        '${state[controller.questionIndex.value].score.toString()} Points',
+                        style: rgBold.copyWith(color: bgColor),
+                      ),
+                      ImageService.isValid(state[controller.questionIndex.value]
+                              .questionImageUrl)
+                          ? Image.network(
+                              state[controller.questionIndex.value]
+                                  .questionImageUrl,
+                              height: 200,
+                              width: 200,
+                            )
+                          : const SizedBox(),
+                      Text(
+                        state[controller.questionIndex.value]
+                            .question
+                            .toString(),
+                        style: rgBold.copyWith(color: bgColor),
+                      ),
+                    ]),
+                  ),
+                  ChoiceOptions(
+                      controller: controller,
+                      index: controller.questionIndex.value,
+                      state: state),
+                ],
+              ),
             ),
           );
         },

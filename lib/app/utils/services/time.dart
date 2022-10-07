@@ -5,9 +5,9 @@ class CountdownTimer {
   Timer? countdownTimer;
   Duration myDuration = const Duration(seconds: 10);
 
-  void startTimer(Function callback) {
-    countdownTimer = Timer.periodic(
-        const Duration(seconds: 1), (_) => setCountDown(callback));
+  void startTimer(Function callback, Function timerCallback) {
+    countdownTimer = Timer.periodic(const Duration(seconds: 1),
+        (_) => setCountDown(callback, timerCallback));
   }
 
   void stopTimer() {
@@ -21,9 +21,9 @@ class CountdownTimer {
     myDuration = const Duration(seconds: 10);
   }
 
-  setCountDown(Function callback) {
+  setCountDown(Function callback, Function timerCallback) {
     final reduceSecondsBy = 1;
-
+    timerCallback(myDuration.inSeconds);
     final seconds = myDuration.inSeconds - reduceSecondsBy;
     if (seconds < 0) {
       countdownTimer!.cancel();
